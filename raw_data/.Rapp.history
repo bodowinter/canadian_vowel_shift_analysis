@@ -1,0 +1,89 @@
+## Bodo Winter#
+## April 27, 2015; Amended May 15, 2015#
+## Loading in RT data and merging it with the perception data frame#
+## Load in necessary libraries:#
+#
+library(stringr)#
+#########################################################################
+######################## Load in data#
+#########################################################################
+#
+## Set to main directory for this data package:#
+## This is the only directory that needs to be specified for the user. Everything else is relative to that folder:#
+#
+mainDir = "/Users/teeniematlock/Desktop/research/kettig_canadian_vowel_shift/analysis"#
+#
+## Set to sub-directory that contains by-participant perception data:#
+#
+subDir = "preprocessing/data/perception_individual_data/"#
+setwd(file.path(mainDir,subDir))
+perception = data.frame(Subject=rep(gsub(".txt","",list.files()),each=102))#
+perception$Info = character(nrow(perception))#
+#
+## Loop through files and put into dataframe:#
+#
+filenames = list.files()#
+subject_name = gsub(".txt","",filenames)#
+for(i in 1:length(filenames)){#
+	this_file = filenames[i]#
+	perception[perception$Subject %in% subject_name[i],]$Info = readLines(this_file)[-1]#
+	}#
+#########################################################################
+######################## Preprocessing#
+#########################################################################
+#
+## Separate the string information:#
+#
+xlist = strsplit(perception$Info,split="-")#
+perception$Trial = sapply(xlist,FUN=function(x)x[[1]])#
+perception$Response = sapply(xlist,FUN=function(x)x[[2]])#
+perception$RT = sapply(xlist,FUN=function(x)x[[3]])#
+#
+## Load in the perception data:#
+#
+setwd("..")#
+xdata = read.csv(file="perception.txt",sep = "\t")#
+#
+## Sort perception data by subject, then by trial:#
+#
+xdata = xdata[order(xdata$Subject,xdata$Stimulus),]#
+perception$Trial = as.numeric(perception$Trial)#
+perception = perception[order(perception$Subject,perception$Trial),]#
+#
+## Get rid of first six practice trials in the perception to match the lengths of the frames:#
+#
+perception = perception[!(perception$Trial %in% 1:6),]#
+#
+## Create a column with vowel information:#
+#
+perception$ChosenVowel = "ae"#
+perception[perception$Response == "BET",]$ChosenVowel = "e"#
+perception[perception$Response == "BUT",]$ChosenVowel = "u"#
+perception[perception$Response == "BOUGHT",]$ChosenVowel = "o"#
+#
+## Center and log-transform variables:#
+#
+perception$RT = as.numeric(perception$RT)#
+perception$LogRT = log(perception$RT)#
+perception$RT_c = perception$RT-mean(perception$RT)#
+perception$LogRT_c = perception$LogRT-mean(perception$LogRT)#
+perception$Trial_c = perception$Trial-mean(perception$Trial)#
+#
+## Merge synthetic formant values of the stimuli into the new "perception" data frame:#
+#
+perception = cbind(perception,xdata[match(perception$Trial,xdata$Stimulus),c("F1","F2")])#
+#
+## Center F1 and F2 as well:#
+#
+perception$F1_c = perception$F1-mean(perception$F1)#
+perception$F2_c = perception$F2-mean(perception$F2)#
+#
+## Add gender and continuous and categorical age information:#
+#
+perception$Gender = str_extract(as.character(perception$Subject),"[A-Z]")#
+perception$ContinuousAge = as.numeric(str_extract(as.character(perception$Subject),"[0-9]+"))#
+perception$Age = ifelse(perception$ContinuousAge<1984,"old","young")#
+#
+## Re-order columns and get rid of the INFO column:#
+#
+perception = perception[,c("Subject","Gender","Age","ContinuousAge","Trial","Trial_c","F1","F2","F1_c","F2_c","RT","RT_c","LogRT","LogRT_c","Response","ChosenVowel")]
