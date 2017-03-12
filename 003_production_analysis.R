@@ -1,7 +1,10 @@
 ## Bodo Winter
 ## May 3, 2015; Amended May 15-17, 2015; May 19, 2015
 ## Adapted new style and cleaned code: Jan 17, 2016
+## Some further polishing after review: August 3, 2016
 ## Canadian Vowel Shift production Data Analysis
+
+## Make sure that stringsAsFactors = T
 
 
 ##------------------------------------------------------------------
@@ -75,7 +78,8 @@ if (single) {
 	par(mai = c(1.25, 1.5, 0.5, 0.5))
 	} else {
 		quartz('', 12, 5.5)
-		par(mai = c(1.25, 0.5, 0.35, 0.15), omi = c(0, 1, 0.65, 0), mfrow = c(1, 2))
+		par(mai = c(1.25, 0.5, 0.35, 0.15),
+			omi = c(0, 1, 0.65, 0), mfrow = c(1, 2))
 		}
 plot(1, 1, type = 'n',
 	xlim = c(1750, 1000), ylim = c(650, 450),
@@ -83,27 +87,35 @@ plot(1, 1, type = 'n',
 if (!single) text(1725, 460, labels = '(a)', cex = 2, font = 2)
 if (!single) mtext(side = 3, 'Age', cex = 2, font = 2, line = 0.6)
 mtext(side = 1, 'F2', line = 3, cex = 1.75, font = 2)
-mtext(side = 1, '(Lobanov-normalized)', line = 4.25, cex = 1.15, font = 2)
+mtext(side = 1, '(Lobanov-normalized)',
+	line = 4.25, cex = 1.15, font = 2)
 mtext(side = 2, 'F1', line = 5.25, cex = 1.75, font = 2)
-mtext(side = 2, '(Lobanov-normalized)', line = 4, cex = 1.15, font = 2)
-axis(side = 1, seq(1750, 1000, -250), lwd.ticks = 2, font = 2, cex.axis = 1.5)
-axis(side = 2, seq(650, 450, -50), lwd.ticks = 2, font = 2, cex.axis = 1.5, las = 2)
-text(xagr[-extremes,]$F2, xagr[-extremes,]$F1, labels = xagr[-extremes, ]$VowelIPA, cex = 1.15)
+mtext(side = 2, '(Lobanov-normalized)',
+	line = 4, cex = 1.15, font = 2)
+axis(side = 1, seq(1750, 1000, -250),
+	lwd.ticks = 2, font = 2, cex.axis = 1.5)
+axis(side = 2, seq(650, 450, -50),
+	lwd.ticks = 2, font = 2, cex.axis = 1.5, las = 2)
+text(xagr[-extremes,]$F2, xagr[-extremes,]$F1,
+	labels = xagr[-extremes, ]$VowelIPA, cex = 1.15)
 # Plot extreme speakers:
-text(xagr[extremes, ]$F2,
-	xagr[extremes, ]$F1, font = 2, labels = xagr[extremes, ]$VowelIPA, cex = 2)
+text(xagr[extremes, ]$F2, xagr[extremes, ]$F1, font = 2,
+	labels = xagr[extremes, ]$VowelIPA, cex = 2)
 ## Add ellipses:
 for (i in 1:4) {					# plots points
 	this_vowel <- levels(xagr$Vowel)[i]
 	old <- as.matrix(xagr[xagr$Vowel == this_vowel & xagr$Age == 'O', c('F2', 'F1')])
 	young <- as.matrix(xagr[xagr$Vowel == this_vowel & xagr$Age == 'Y', c('F2', 'F1')])
 	dataEllipse(old,
-		levels = confidence, add = T, plot.points = F, center.pch = F, lwd = 2, col = 'black', lty = 2)
+		levels = confidence, add = T, plot.points = F,
+		center.pch = F, lwd = 2, col = 'black', lty = 2)
 	dataEllipse(young,
-		levels = confidence, add = T, plot.points = F, center.pch = F, lwd = 2, col = 'black')
+		levels = confidence, add = T, plot.points = F,
+		center.pch = F, lwd = 2, col = 'black')
 	}
 ## Add legend:
-legend('topright', lty = c(2, 1), lwd = c(2, 2), legend = c('old', 'young'), box.lwd = 2, cex = 1.25)
+legend('topright', lty = c(2, 1), lwd = c(2, 2),
+	legend = c('old', 'young'), box.lwd = 2, cex = 1.25)
 box(lwd = 2)
 
 ## Create vowel plot with ellipses for gender categories:
@@ -118,12 +130,18 @@ plot(1, 1, type = 'n',
 if (!single) text(1725, 460, labels = '(b)', cex = 2, font = 2)
 if (!single) mtext(side = 3, 'Gender', cex = 2, font = 2, line = 0.6)
 mtext(side = 1, 'F2', line = 3, cex = 1.75, font = 2)
-mtext(side = 1, '(Lobanov-normalized)', line = 4.25, cex = 1.15, font = 2)
-if (single) mtext(side = 2, 'F1', line = 5.25, cex = 1.75, font = 2)
-if (single) mtext(side = 2, '(Lobanov-normalized)', line = 4, cex = 1.15, font = 2)
-axis(side = 1, seq(1750, 1000, -250), lwd.ticks = 2, font = 2, cex.axis = 1.5)
-if (single) axis(side = 2, seq(650, 450, -50), lwd.ticks = 2, font = 2, cex.axis = 1.5, las = 2)
-text(xagr[-extremes,]$F2, xagr[-extremes,]$F1, labels = xagr[-extremes, ]$VowelIPA, cex = 1.15)
+mtext(side = 1, '(Lobanov-normalized)',
+	line = 4.25, cex = 1.15, font = 2)
+if (single) mtext(side = 2, 'F1',
+	line = 5.25, cex = 1.75, font = 2)
+if (single) mtext(side = 2, '(Lobanov-normalized)',
+	line = 4, cex = 1.15, font = 2)
+axis(side = 1, seq(1750, 1000, -250),
+	lwd.ticks = 2, font = 2, cex.axis = 1.5)
+if (single) axis(side = 2, seq(650, 450, -50),
+	lwd.ticks = 2, font = 2, cex.axis = 1.5, las = 2)
+text(xagr[-extremes,]$F2, xagr[-extremes,]$F1,
+	labels = xagr[-extremes, ]$VowelIPA, cex = 1.15)
 # Plot extreme speakers:
 text(xagr[extremes, ]$F2,
 	xagr[extremes, ]$F1, font = 2, labels = xagr[extremes, ]$VowelIPA, cex = 2)
@@ -133,12 +151,15 @@ for (i in 1:4) {					# plots points
 	male <- as.matrix(xagr[xagr$Vowel == this_vowel & xagr$Gender == 'M', c('F2', 'F1')])
 	female <- as.matrix(xagr[xagr$Vowel == this_vowel & xagr$Gender == 'F', c('F2', 'F1')])
 	dataEllipse(male,
-		levels = confidence, add = T, plot.points = F, center.pch = F, lwd = 2, col = 'black', lty = 2)
+		levels = confidence, add = T, plot.points = F,
+		center.pch = F, lwd = 2, col = 'black', lty = 2)
 	dataEllipse(female,
-		levels = confidence, add = T, plot.points = F, center.pch = F, lwd = 2, col = 'black')
+		levels = confidence, add = T, plot.points = F,
+		center.pch = F, lwd = 2, col = 'black')
 	}
 ## Add legend:
-legend('topright', lty = c(2, 1), lwd = c(2, 2), legend = c('male', 'female'), box.lwd = 2, cex = 1.25)
+legend('topright', lty = c(2, 1), lwd = c(2, 2),
+	legend = c('male', 'female'), box.lwd = 2, cex = 1.25)
 box(lwd = 2)
 
 
@@ -158,45 +179,39 @@ vowels <- mutate(vowels,
 ## The PlaceOfArticulation:Vowel cannot be fitted because not all combinations attested:
 
 xmdl.F1 <- lmer(F1 ~ Age01 + Gender01 + Vowel + Lg10WF_c + 
-	Age01:Vowel + Gender01:Vowel + Lg10WF_c:Vowel + 
+	Age01:Vowel + Gender01:Vowel + 
 	Voicing + Syllables + MannerOfArticulation + PlaceOfArticulation + 
-	Voicing:Vowel + Syllables:Vowel + MannerOfArticulation:Vowel + 
-	(1 +Vowel|Speaker) + (1|Context) + (0+Age01|Context) + (0+Gender01|Context),
+	(1 + Vowel|Speaker) + (1|Context) + (0 + Age01|Context) + (0 + Gender01|Context),
 	vowels, REML = F)
 xmdl.F2 <- lmer(F2 ~ Age01 + Gender01 + Vowel + Lg10WF_c +
-	Age01:Vowel + Gender01:Vowel + Lg10WF_c:Vowel + 
+	Age01:Vowel + Gender01:Vowel + 
 	Voicing + Syllables + MannerOfArticulation + PlaceOfArticulation + 
-	Voicing:Vowel + Syllables:Vowel + MannerOfArticulation:Vowel + 
 	(1+Vowel|Speaker) + (1|Context) + (0+Age01|Context) + (0+Gender01|Context),
 	vowels, REML = F)
 
 ## Null models without age/vowel interaction:
 
 xmdl.F1.noage <- lmer(F1 ~ Age01 + Gender01 + Vowel + Lg10WF_c + 
-	Gender01:Vowel + Lg10WF_c:Vowel + 
+	Gender01:Vowel + 
 	Voicing + Syllables + MannerOfArticulation + PlaceOfArticulation + 	
-	Voicing:Vowel + Syllables:Vowel + MannerOfArticulation:Vowel + 
 	(1+Vowel|Speaker) + (1|Context) + (0+Age01|Context) + (0+Gender01|Context),
 	vowels, REML = F)
 xmdl.F2.noage <- lmer(F2 ~ Age01 + Gender01 + Vowel + Lg10WF_c + 
-	Gender01:Vowel + Lg10WF_c:Vowel + 
+	Gender01:Vowel + 
 	Voicing + Syllables + MannerOfArticulation + PlaceOfArticulation + 		
-	Voicing:Vowel + Syllables:Vowel + MannerOfArticulation:Vowel + 
 	(1+Vowel|Speaker) + (1|Context) + (0+Age01|Context) + (0+Gender01|Context),
 	vowels, REML = F)
 
 ## Null models without gender/vowel interaction:
 
 xmdl.F1.nogender <- lmer(F1 ~ Age01 + Gender01 + Vowel + Lg10WF_c + 
-	Age01:Vowel + Lg10WF_c:Vowel + 
+	Age01:Vowel + 
 	Voicing + Syllables + MannerOfArticulation + PlaceOfArticulation + 		
-	Voicing:Vowel + Syllables:Vowel + MannerOfArticulation:Vowel + 
 	(1+Vowel|Speaker) + (1|Context) + (0+Age01|Context) + (0+Gender01|Context),
 	vowels, REML = F)
 xmdl.F2.nogender <- lmer(F2 ~ Age01 + Gender01 + Vowel + Lg10WF_c + 
-	Age01:Vowel + Lg10WF_c:Vowel + 
+	Age01:Vowel + 
 	Voicing + Syllables + MannerOfArticulation + PlaceOfArticulation + 		
-	Voicing:Vowel + Syllables:Vowel + MannerOfArticulation:Vowel + 
 	(1+Vowel|Speaker) + (1|Context) + (0+Age01|Context) + (0+Gender01|Context),
 	vowels, REML = F)
 
@@ -223,6 +238,35 @@ plot(fitted(xmdl.F2), residuals(xmdl.F2))
 
 ## Looks all pretty good.
 
+## Reviewer 1 requested reporting of age * gender interactions:
+
+xmdl.F1.three <- lmer(F1 ~ Age01 + Gender01 + Vowel + Lg10WF_c + 
+	Age01:Vowel + Gender01:Vowel + 
+	Age01:Gender01 + Age01:Gender01:Vowel +
+	Voicing + Syllables + MannerOfArticulation + PlaceOfArticulation + 
+	(1 + Vowel|Speaker) + (1|Context) + (0 + Age01|Context) + (0 + Gender01|Context),
+	vowels, REML = F)
+xmdl.F2.three <- lmer(F2 ~ Age01 + Gender01 + Vowel + Lg10WF_c +
+	Age01:Vowel + Gender01:Vowel + 
+	Age01:Gender01 + Age01:Gender01:Vowel +
+	Voicing + Syllables + MannerOfArticulation + PlaceOfArticulation + 
+	(1+Vowel|Speaker) + (1|Context) + (0+Age01|Context) + (0+Gender01|Context),
+	vowels, REML = F)
+xmdl.F1.two <- lmer(F1 ~ Age01 + Gender01 + Vowel + Lg10WF_c + 
+	Age01:Vowel + Gender01:Vowel + 
+	Age01:Gender01 + 
+	Voicing + Syllables + MannerOfArticulation + PlaceOfArticulation + 
+	(1 + Vowel|Speaker) + (1|Context) + (0 + Age01|Context) + (0 + Gender01|Context),
+	vowels, REML = F)
+xmdl.F2.two <- lmer(F2 ~ Age01 + Gender01 + Vowel + Lg10WF_c +
+	Age01:Vowel + Gender01:Vowel + 
+	Age01:Gender01 + 
+	Voicing + Syllables + MannerOfArticulation + PlaceOfArticulation + 
+	(1+Vowel|Speaker) + (1|Context) + (0+Age01|Context) + (0+Gender01|Context),
+	vowels, REML = F)
+
+anova(xmdl.F1, xmdl.F1.two, xmdl.F1.three, test = 'Chisq')
+anova(xmdl.F2, xmdl.F2.two, xmdl.F2.three, test = 'Chisq')
 
 
 ##------------------------------------------------------------------
@@ -362,6 +406,54 @@ anova(o.F1.nogender, o.F1, test = 'Chisq')			# p = 0.064
 anova(o.F2.nogender, o.F2, test = 'Chisq')
 anova(u.F1.nogender, u.F1, test = 'Chisq')
 anova(u.F2.nogender, u.F2, test = 'Chisq')			# p = 0.03
+
+## Reviewer 1 wanted us to look at Age * Gender interactions, so here we go!
+
+## Full models:
+
+summary(ae.F1.int <- lmer(F1 ~ Age01 + Gender01 + Age01:Gender01 +
+	Voicing + Syllables + MannerOfArticulation + PlaceOfArticulation + 	
+	(1|Speaker) + (1|Context) + (0+Age01|Context) + (0+Gender01|Context),
+	subset(vowels, Vowel == 'ae'), REML = F))
+summary(ae.F2.int <- lmer(F2 ~ Age01 + Gender01 + Age01:Gender01 +
+	Voicing + Syllables + MannerOfArticulation + PlaceOfArticulation + 	
+	(1|Speaker) + (1|Context) + (0+Age01|Context) + (0+Gender01|Context),
+	subset(vowels, Vowel == 'ae'), REML = F))
+summary(e.F1.int <- lmer(F1 ~ Age01 + Gender01 + Age01:Gender01 +
+	Voicing + Syllables + MannerOfArticulation + PlaceOfArticulation + 	
+	(1|Speaker) + (1|Context) + (0+Age01|Context) + (0+Gender01|Context),
+	subset(vowels, Vowel == 'e'), REML = F))
+summary(e.F2.int <- lmer(F2 ~ Age01 + Gender01 + Age01:Gender01 +
+	Voicing + Syllables + MannerOfArticulation + PlaceOfArticulation + 	
+	(1|Speaker) + (1|Context) + (0+Age01|Context) + (0+Gender01|Context),
+	subset(vowels, Vowel == 'e'), REML = F))
+summary(u.F1.int <- lmer(F1 ~ Age01 + Gender01 + Age01:Gender01 +
+	Voicing + Syllables + MannerOfArticulation + PlaceOfArticulation + 	
+	(1|Speaker) + (1|Context) + (0+Age01|Context) + (0+Gender01|Context),
+	subset(vowels, Vowel == 'u'), REML = F))
+summary(u.F2.int <- lmer(F2 ~ Age01 + Gender01 + Age01:Gender01 +
+	Voicing + Syllables + MannerOfArticulation + PlaceOfArticulation + 	
+	(1|Speaker) + (1|Context) + (0+Age01|Context) + (0+Gender01|Context),
+	subset(vowels, Vowel == 'u'), REML = F))
+summary(o.F1.int <- lmer(F1 ~ Age01 + Gender01 + Age01:Gender01 +
+	Voicing + Syllables + MannerOfArticulation + PlaceOfArticulation + 	
+	(1|Speaker) + (1|Context) + (0+Age01|Context) + (0+Gender01|Context),
+	subset(vowels, Vowel == 'o'), REML = F))
+summary(o.F2.int <- lmer(F2 ~ Age01 + Gender01 + Age01:Gender01 +
+	Voicing + Syllables + MannerOfArticulation + PlaceOfArticulation + 	
+	(1|Speaker) + (1|Context) + (0+Age01|Context) + (0+Gender01|Context),
+	subset(vowels, Vowel == 'o'), REML = F))
+
+## Perform tests of the interactions:
+
+anova(ae.F1.int, ae.F1, test = 'Chisq')
+anova(ae.F2.int, ae.F2, test = 'Chisq')
+anova(e.F1.int, e.F1, test = 'Chisq')
+anova(e.F2.int, e.F2, test = 'Chisq')
+anova(o.F1.int, o.F1, test = 'Chisq')	# p = 0.095
+anova(o.F2.int, o.F2, test = 'Chisq')
+anova(u.F1.int, u.F1, test = 'Chisq')
+anova(u.F2.int, u.F2, test = 'Chisq')
 
 
 
@@ -620,6 +712,13 @@ speakers$Group <- paste(speakers$Gender, speakers$Age, sep = ':')
 
 anova(lm(ED_e ~ ED_ae * Group, speakers))
 
+## Show separate correlation analyses:
+
+olds <- speakers[speakers$Group %in% c('F:O', 'M:O'), ]
+youngs <- speakers[speakers$Group %in% c('F:Y', 'M:Y'), ]
+cor.test(olds$ED_e, olds$ED_ae)
+cor.test(youngs$ED_e, youngs$ED_ae)
+
 ## Regression model for plotting the line and CI:
 
 xmdl <- lm(ED_e ~ ED_ae, speakers)
@@ -645,6 +744,31 @@ points(speakers[speakers$Age == 'Y', ]$ED_ae, speakers[speakers$Age == 'Y', ]$ED
 points(speakers[speakers$Age == 'O', ]$ED_ae, speakers[speakers$Age == 'O', ]$ED_e, cex = 1.5, pch = 17, lwd = 1.25)
 legend('bottomright', legend = c('old', 'young'), box.lwd = 2,cex = 1.25, pch = c(17, 19))
 box(lwd = 2)
+
+## Reviewer 1 suggests that the distances between /ae/ and /e/ might be different for young and old groups, let's test this:
+
+F1_AE_to_E <- (speakers$F1_ae - speakers$F1_e) ^ 2
+F2_AE_to_E <- (speakers$F2_ae - speakers$F2_e) ^ 2
+speakers$CatDist <- sqrt(F1_AE_to_E + F2_AE_to_E)
+F1dist <- (vowels[vowels$Vowel == 'e', ]$F1 - eLEAD[1]) ^ 2
+F2dist <- (vowels[vowels$Vowel == 'e', ]$F2 - eLEAD[2]) ^ 2
+ED_e <- sqrt(F1dist + F2dist)
+
+## Make a formal test of this:
+
+xmdl <- lm(CatDist ~ Age * Gender, speakers)
+anova(xmdl)
+
+## For interpretable coefficients in the presence of interactions we need to sum or deviation code
+## predictors:
+
+speakers$Age01 <- as.numeric(speakers$Age) - 1.5
+speakers$Gender01 <- as.numeric(speakers$Gender) - 1.5
+summary(lm(CatDist ~ Age01 * Gender01, speakers))
+aggregate(CatDist ~ Age, speakers, mean)
+aggregate(CatDist ~ Gender, speakers, mean)
+
+
 
 
 
